@@ -1,6 +1,8 @@
 
 
 import './App.css'
+import { Board } from './components/Board/Board'
+import { ScoreBar } from './components/Score/ScoreBar'
 
 function App() {
 
@@ -8,9 +10,9 @@ function App() {
   return (
     <>
       <div>
-        <h1>Vite + React</h1>
-      </div>
-      
+        <ScoreBar/>
+        <Board/>
+    </div>
     </>
   )
 }
