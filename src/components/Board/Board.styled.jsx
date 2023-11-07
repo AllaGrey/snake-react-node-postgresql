@@ -6,6 +6,7 @@ grid-template-rows: repeat(20, minmax(20px, 1fr));
 grid-template-columns: repeat(20, minmax(20px, 1fr));
 font-size: 5px;
 border: 2px solid grey;
+max-width: 400px;
 `
 export const Cell = styled.div`
 border: 1px solid grey;

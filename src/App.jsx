@@ -1,18 +1,24 @@
 
 
 import './App.css'
-import { Board } from './components/Board/Board'
-import { ScoreBar } from './components/Score/ScoreBar'
+
+import { SharedLayout } from './components/SharedLayout/SharedLayout'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { refreshUser } from './redux/auth/operations'
 
 function App() {
 
+  const dispatch = useDispatch()
+
+    useEffect(() => {
+    dispatch(refreshUser())
+
+  }, [dispatch])
 
   return (
     <>
-      <div>
-        <ScoreBar/>
-        <Board/>
-    </div>
+        <SharedLayout/>
     </>
   )
 }
