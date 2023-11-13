@@ -1,4 +1,4 @@
-import{a as h,B as R,s as c,b as x,j as o,P as f,r as u}from"./index-f41dfe18.js";h.defaults.baseURL=R;const D=async()=>{try{const{data:t}=await h.post("/games");return t}catch(t){console.log(t)}},G=async()=>{try{const{data:t}=await h.get("/games/scores");return{data:t}}catch(t){console.log(t)}},g=async t=>{try{const{data:e}=await h.patch("/games",t);return e}catch(e){console.log(e)}},P=c.div`
+import{a as h,B as R,s as c,b as x,j as o,P as f,r as u}from"./index-775a1e07.js";h.defaults.baseURL=R;const D=async()=>{try{const{data:t}=await h.post("/games");return t}catch(t){console.log(t)}},G=async()=>{try{const{data:t}=await h.get("/games/scores");return{data:t}}catch(t){console.log(t)}},g=async t=>{try{const{data:e}=await h.patch("/games",t);return e}catch(e){console.log(e)}},P=c.div`
 padding: 0;
 margin: 0;
 overflow: hidden;
