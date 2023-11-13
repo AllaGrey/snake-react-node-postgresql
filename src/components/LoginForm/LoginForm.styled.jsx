@@ -32,14 +32,14 @@ border: none;
 width: 120px;
 height: 30px;
 justify-content: center;
-background-color: blue;
+background-color: green;
 color: white;
 border-radius: 5px;
 cursor: pointer;
 font-size: 14px;
 
 &:hover {
-    color: blue;
+    color: yellowgreen;
     background-color: white;
 }
 `

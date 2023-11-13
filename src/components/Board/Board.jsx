@@ -1,56 +1,92 @@
-import { addNewGame } from "../../services/gameAPI";
-import { BoardContainer, Cell } from "./Board.styled";
+import { addNewGame, updateGame } from "../../services/gameAPI";
+import { BoardContainer, Button, GameStatus, GameInfo } from "./Board.styled";
 import { useState, useEffect } from "react";
+import { updDirection } from "../../utils/updateDirection";
+import { renderBoard } from "../../utils/renderBoard";
+import { getUpdSnake } from "../../utils/getUpdSnake";
+import PropTypes from 'prop-types';
 
-const boardSize = 20;
+export const Board = ({start, pause, pauseGame, toggleStart}) => {
 
-export const Board = ({data, updateCurrentGame}) => {
+    const [data, setData] = useState()
 
-    const { snake, food } = data;
-    // const [snake, setSnake] = useState(snakeInitialPosition);
-    // const [food, setFood] = useState(foodInitialPosition);
-    // const [direction, setDirection] = useState('UP');
-    // const [scoreState, setScoreState] = useState(scoreStateInitial);
-    
+    useEffect(() => {
+        if (start) addNewGame().then(newGame => {
+            toggleStart()
+            setData(newGame)
+        })
+    }, [start, toggleStart])
 
+    useEffect(() => {
+        let moveInterval;
 
-    const renderBoard = () => {
+        if (data && !pause && data.status !== 'finished') {
+            moveInterval = setInterval(() => {
+                const newData = getUpdSnake(data)
 
-        let cellArray = [];
-
-        for (let row = 0; row < boardSize; row++) {
-            for (let column = 0; column < boardSize; column++) {
-
-                let cell;
-                let special = "";
-                const isFood = food.x === row && food.y === column;
-                const isSnake = snake.some(item => item.x === row && item.y === column);
-                const isSnakeHead = snake[0].x === row && snake[0].y === column;
-
-                if (isFood) special = 'food';
-                if (isSnake) special = 'snake';
-                if (isSnakeHead) special = 'head';
-
-                cell = <Cell key={`${column} - ${row}`} special={special} >{`${column} - ${row}`}</Cell>
-
-                cellArray.push(cell)
-            }
+                if (newData.status === 'finished') {
+                    updateGame(newData).then(newData => setData(newData))
+                    toggleStart()
+                } else {
+                setData(newData)
+                }
+                
+            }, data.speed);
+            
         }
 
-        return cellArray
-    }
+        return () => {
+            if (data && !pause && data.status === 'in progress') {
+                clearInterval(moveInterval);
+            }
 
-    const gameOver = async () => {
-        const finishGame = await updateCurrentGame({ ...data, status: 'finished' })
-        console.log(finishGame);
+        }
+    }, [data, pause, toggleStart])
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            const newData = updDirection(e, data);
+            setData(newData);
+        }
+
+        if (data && !pause && data.status !== 'finished') {
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        return () => {
+            if (data && !pause && data.status !== 'finished') {
+                document.removeEventListener('keydown', handleKeyDown);
+            }
+        }
+    }, [data, pause]);    
+
+    const handleUpdate = async () => {
+        pauseGame()
+        const newData = await updateGame(data)
+        setData(newData)
     }
 
     return (
         <>
-            {<BoardContainer>
-                {renderBoard()}
+            <GameInfo>
+                {data && <div>
+                    <p>Score: {data.score}</p>
+                    <p>Level: {data.level}</p>
+                </div>}
+                {data && data.status !== 'finished' && <Button onClick={handleUpdate}>{pause ? 'Play' : 'Pause'}</Button>}
+            </GameInfo>
+            {<BoardContainer >
+                {data && data.status !== 'finished' && !pause && renderBoard(data)}
+                {data && pause && <GameStatus>Pause</GameStatus>}
+                {data && data.status === 'finished' && <GameStatus>Game Over</GameStatus>}
             </BoardContainer>}
-            <button onClick={()=>gameOver()}>game over</button>
         </>
     )
+}
+
+Board.propTypes = {
+    start: PropTypes.bool.isRequired,
+    pause: PropTypes.bool.isRequired,
+    pauseGame: PropTypes.func.isRequired,
+    toggleStart: PropTypes.func.isRequired
 }

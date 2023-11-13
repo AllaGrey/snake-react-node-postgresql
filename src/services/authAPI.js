@@ -22,7 +22,6 @@ export const registerUser = async (credentials) => {
 
 export const loginUser = async (credentials) => {
     const { data } = await axios.post('auth/login', credentials);
-    console.log(data);
 
     authHeader.set(data.token);
 
@@ -37,7 +36,6 @@ export const logoutUser = async () => {
 };
     
 export const fetchUserByToken = async (persistedToken) => {
-    console.log(BASE_URL);
     authHeader.set(persistedToken);
 
     const {

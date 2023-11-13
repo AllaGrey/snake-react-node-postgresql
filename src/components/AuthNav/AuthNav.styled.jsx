@@ -10,7 +10,7 @@ export const Button = styled(NavLink)`
 border: none;
 width: 120px;
 height: 25px;
-background-color: blue;
+background-color: green;
 color: white;
 border-radius: 5px;
 cursor: pointer;
@@ -23,7 +23,7 @@ justify-content: center;
 align-items: center;
 
 &:hover {
-    color: blue;
+    color: yellowgreen;
     background-color: white;
 }
 `

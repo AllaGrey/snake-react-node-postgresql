@@ -6,7 +6,6 @@ axios.defaults.baseURL = BASE_URL;
 export const addNewGame = async () => {
     try {
         const { data } = await axios.post('/games');
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -16,7 +15,6 @@ export const addNewGame = async () => {
 export const getCurrentGame = async () => {
     try {
         const { data } = await axios.get('/games/current');
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
@@ -25,8 +23,8 @@ export const getCurrentGame = async () => {
 
 export const getScores = async () => {
     try {
-        const response = await axios.get('/scores');
-        return response;
+        const { data } = await axios.get('/games/scores');
+        return { data };
     } catch (error) {
         console.log(error);
     }
@@ -35,7 +33,6 @@ export const getScores = async () => {
 export const updateGame = async (newData) => {
     try {
         const { data } = await axios.patch('/games', newData);
-        console.log(data);
         return data;
     } catch (error) {
         console.log(error);
