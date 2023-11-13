@@ -20,7 +20,6 @@ const GamePage = () => {
     }
 
     const pauseGame = () => {
-        // setStart(false)
         setPause(prev => !prev)
     }
 
