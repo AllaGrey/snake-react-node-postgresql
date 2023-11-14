@@ -13,7 +13,7 @@ export const ScoreBar = ({ scoresData }) => {
                         <TopScores key={index}>
                             <ScoreType>{index + 1}. {score.user}: <Score>{score.score}</Score></ScoreType>
                         </TopScores>)}
-                    <ScoreType>Personal best score: <Score>{userMaxScore.score}</Score></ScoreType>
+                    <ScoreType>Personal best score: <Score>{userMaxScore ? userMaxScore : '0'}</Score></ScoreType>
                 </ScoreBarContainer>
             }
         </>
@@ -23,10 +23,11 @@ export const ScoreBar = ({ scoresData }) => {
 ScoreBar.propTypes = {
     scoresData: PropTypes.shape({
         data: PropTypes.shape({
-            topScores: PropTypes.array.isRequired,
-            userMaxScore: PropTypes.shape({
+            topScores: PropTypes.arrayOf(PropTypes.shape({
+                user: PropTypes.string.isRequired,
                 score: PropTypes.number.isRequired,
-            }).isRequired,
+            })).isRequired,
+            userMaxScore: PropTypes.number.isRequired,
         }).isRequired,
-    })
-}
+    }).isRequired,
+};
